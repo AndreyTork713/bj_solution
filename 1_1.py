@@ -43,3 +43,6 @@ class Deck():
 test_deck = Deck()
 test_deck.shuffle()
 print(test_deck)
+print()
+print()
+print(test_deck.deal())
