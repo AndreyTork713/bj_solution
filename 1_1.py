@@ -53,17 +53,47 @@ class Hand():
         self.cards.append(card)
         self.value += values[card.rank]
 
+        # Track aces
+        if card.rank == 'Ace':
+            self.aces += 1
+
     def adjust_for_ace(self):
-        pass
+        while self.value > 21 and self.aces:
+            self.value -= 10
+            self.aces -= 1
 
 
-test_deck = Deck()
-test_deck.shuffle()
+class Chips():
+    def __init__(self, total=100):
+        self.total = total
+        self.bet = 0
 
-# PLAYER
-test_player = Hand()
+    def win_bet(self):
+        self.total += self.bet
 
-pulled_card = test_deck.deal()
-print(pulled_card)
-test_player.add_card(pulled_card)
-print(test_player.value)
+    def lose_bet(self):
+        self.bet -= self.bet
+
+
+def take_bet(chips):
+    while True:
+
+        try:
+            chips.bet = int(input("How many chips would you like to bet?"))
+        except:
+            print("Sorry please  provide an integer")
+        else:
+            if chips.bet > chips.total:
+                print('Sorry, you do not have enough chips! You have: {}'.format(chips.total))
+            else:
+                break
+
+
+def hit(deck, hand):
+
+    single_card = deck.deal()
+    hand.add_card(single_card)
+    hand.adjust_for_ace() 
+
+
+
